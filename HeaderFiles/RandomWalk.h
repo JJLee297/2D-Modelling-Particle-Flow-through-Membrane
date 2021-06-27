@@ -13,11 +13,6 @@ public:
 		stuck = false;
 	}
 
-	void moveParticleXY(int xpos, int ypos) {
-		x = xpos;
-		y = ypos;
-	}
-
 	bool getState() {
 		return stuck;
 	}
