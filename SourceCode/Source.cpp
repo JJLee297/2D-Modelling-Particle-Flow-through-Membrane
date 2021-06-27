@@ -15,22 +15,21 @@ bool checkForClosure (int arra){
 	int length = porecheck.size()
 	for(int x = 29; x<71;x++){
 		for(int y = 0;y<length;y++){
-			if(arra[(x+1][porecheck.at(y)] == 0 || arra[x+1][porecheck.at(y)+1] == 0 || arra[x+1][porecheck.at(y)-1]){
-				porecheck.replace = 0; // 0 means that the 'line' in that y index is preserved
+			if(arra[(x+1][porecheck.at(y)] == 0){
+				continue;
+			} 
+			if(arra[x+1][porecheck.at(y)+1] == 0){
+				vector.erase(porecheck.begin()+y);
+				vector.pushback(porecheck.at(y)+1);
 			}
-			else{
-				porecheck.y = 1; // 1 means that the 'line' in the y index has not been preserved
+			if(arra[x+1][porecheck.at(y)-1] == 0){
+				vector.erase(porecheck.begin()+y);
+				vector.pushback(porecheck.at(y)-1);
 			}
 			int length = porecheck.size()
 		}
 	}
-	for(int x = 0; x<100; x++){
-		bool check = false;
-		if (porecheck.x == 0){
-			check = true; // check refers to pore being open or closed
-		}
-	}
-	*/
+	check = porecheck.empty();
 }
 
 void write(int arr[100][200], int A, int B) {
@@ -63,24 +62,7 @@ int main() {
 		}
 	}
 	vector<int> porecheck(200,1);
-	// Sim start
-	// Generate particle
-	// Keep moving particle until it gets stuck or leaves pore
-	// If stuck, update lattice with new stuck position (B++, A++) and (1) check for closure
-	// If it leaves (2), leave lattice alone, (B++)
-	// If (1) or (2), repeat
-	// If (1*), exit and write lattice, B, and A to txt file
-	bool Sim = true;
-	srand(time(NULL));
-	while (Sim) {
-		// generate random starting x position [0 - 99], y position will be fixed at 199 initially
-		int xpos = rand() % 100;
-		int ypos = 199;
-		Particle poo(xpos, ypos);
-		Particle poo2 = poo;
-		poo.moveParticle();
-		cout << "poo2(" << poo2.getWidth() << ", " << poo2.getHeight() << ")\npoo(" << poo.getWidth() << ", " << poo.getHeight() << ")\n";
-		system("pause");
-	}
-	system("pause");
+	/*
+
+	
 }
