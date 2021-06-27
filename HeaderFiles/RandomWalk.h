@@ -15,6 +15,11 @@ class Particle {
     bool stuck;
 }
 
+struct Point{
+  int xposition = x;
+  int yposition = y;
+}
+
 void getDirection(){
   int dir = 0;
   float rand = (rand()%101)/100;
@@ -38,9 +43,13 @@ void getDirection(){
 point moveDirection(){
   x = Particle.xpos;
   y = Particle.ypos;
+  switch (dir)
+  {
+      case 0;
+  }
   if (dir == 0){
     if(x == 0){
-       x = 199;
+       x = 99;
     }
     else(){
       x-=1;
@@ -50,7 +59,7 @@ point moveDirection(){
     x-=1;
     y+=1;
     if (x == -1){
-      x = 199;
+      x = 99;
     }
   }
   if (dir == 2){
@@ -59,12 +68,12 @@ point moveDirection(){
   if (dir == 3){
     x+=1;
     y+=1;
-    if(x == 200){
+    if(x == 100){
       x = 0;
     }
   }
   if (dir == 4){
-    if(x==199){
+    if(x==99){
       x = 0;
     }
     else{
@@ -73,10 +82,6 @@ point moveDirection(){
   }
 }
 
-struct Point{
-  int xposition = x;
-  int yposition = y;
-}
 
 
 
