@@ -1,6 +1,7 @@
 #include <iostream>
 #include "RandomWalk.h"
 #include <fstream>
+#include <vector>
 
 using namespace std;
 using ll = long long;
@@ -34,6 +35,29 @@ int main() {
 			}
 		}
 	}
+	vector<int> porecheck(200,1);
+	/*
+	for(int y = 0;y<200;y++){
+		if(arr[29][y] == 0){
+			vector.y = 0; //initialize all of the stuck particles on the leftmost side of the membrane
+		}
+	}
+	for(int x = 29; x<71;x++){
+		for(int y = 0;y<199;y++){
+			if(arr[x+1][y] == 0 || arr[x+1][y+1] == 0 || arr[x][y+1]){
+				vector.y = 0; // 0 means that the 'line' in that y index is preserved
+			}
+			else{
+				vector.y = 1; // 1 means that the 'line' in the y index has not been preserved
+			}
+		}
+	}
+	for(int x = 0; x<100; x++){
+		bool check = false;
+		if (vector.x == 0){
+			check = true; // check refers to pore being open or closed
+		}
+	}
+	*/
 	
-	system("pause");
 }
