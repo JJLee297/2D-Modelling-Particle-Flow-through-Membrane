@@ -6,4 +6,4 @@ class Particle {
     int x;
     int y;
     bool stuck;
-}
+};
