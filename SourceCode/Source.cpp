@@ -34,6 +34,13 @@ bool checkForClosure (int arra){
 	}
 }
 
+bool checkIfStuck(int arr[100][200], Particle poo) {
+	if (arr[poo.getWidth()][poo.getHeight()] == 0) {
+		return true;
+	}
+	return false;
+}
+				
 void write(int arr[100][200], int A, int B) {
 	ofstream textfile;
 	textfile.open("LatticeData.txt", ofstream::out | ofstream::trunc);
