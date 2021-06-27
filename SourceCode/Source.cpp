@@ -39,22 +39,25 @@ int main() {
 	/*
 	for(int y = 0;y<200;y++){
 		if(arr[29][y] == 0){
-			vector.y = 0; //initialize all of the stuck particles on the leftmost side of the membrane
+			porecheck.y = 0; //initialize all of the stuck particles on the leftmost side of the membrane
+		}
+		else{
+			porecheck.y = 1;
 		}
 	}
 	for(int x = 29; x<71;x++){
 		for(int y = 0;y<199;y++){
-			if(arr[x+1][y] == 0 || arr[x+1][y+1] == 0 || arr[x][y+1]){
-				vector.y = 0; // 0 means that the 'line' in that y index is preserved
+			if(arr[x+1][y] == 0 || arr[x+1][y+1] == 0 || arr[x+1][y-1]){
+				porecheck.y = 0; // 0 means that the 'line' in that y index is preserved
 			}
 			else{
-				vector.y = 1; // 1 means that the 'line' in the y index has not been preserved
+				porecheck.y = 1; // 1 means that the 'line' in the y index has not been preserved
 			}
 		}
 	}
 	for(int x = 0; x<100; x++){
 		bool check = false;
-		if (vector.x == 0){
+		if (porecheck.x == 0){
 			check = true; // check refers to pore being open or closed
 		}
 	}
