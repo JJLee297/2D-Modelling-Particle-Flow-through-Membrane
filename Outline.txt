@@ -1,0 +1,29 @@
+Project outline
+
+Basic Prodedure:
+  0. Build pore geometry and determine flow direction (particle movement probabilities) 
+  1. Spawn particle at random x location at top of lattice
+  2. Random walk particle until it either 
+    1) sticks to surface or another particle
+    2) exists the membrane through the pore
+  3. If the particle sticks
+    1) check for pore closure
+    2) save raw lattice data in txt file
+  4. If the pore is not closed, repeat from step 1
+  5. Import data into excel (etc.) and graph
+  
+Data Collection & Interpretation:
+While we want to maximize the time the pore remains unclogged, we also do not want a large number of particles to pass through the filter completely, which would 
+defeat the purpose of a filter. Let us define two variables, A and B. Let A be the total number of stuck particles at the end of the simulation, and let B be the 
+total number of particles tested during the simulation. We want to maximize B, but minimize (B - A) / B. We can combine these two ideas into a final variable, namely
+X = 2A - B, which we want to maximize.
+Notice, X increases as a new particle gets stuck without clogging the pore. X decreases as a new particle enters the pore without getting stuck. X is finalized when
+the pore is clogged and no new particles are generated. When analyzing the data, we can look at all three variables to determine a conclusion. 
+
+Possible Improvements & Future Developments:
+  1. 3D version
+  2. random, independant particle generation (can have multiple or 0 moving particles at once)
+  3. variable/realistic particle shape/size (not all particles are squares/cubes/1 unit, they can be circular/weirdly shaped)
+  4. "stickiness" to determine whether a particle gets stuck, or a stuck particles becomes free again. 
+
+
