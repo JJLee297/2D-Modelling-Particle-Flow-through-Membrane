@@ -1,4 +1,4 @@
-Project outline
+Project Outline
 
 Basic Prodedure:
   0. Build pore geometry and determine flow direction (particle movement probabilities) 
@@ -10,7 +10,7 @@ Basic Prodedure:
     1) check for pore closure
     2) save raw lattice data in txt file
   4. If the pore is not closed, repeat from step 1
-  5. Import data into excel (etc.) and graph
+  5. Import data into Excel and graph
   
 Data Collection & Interpretation:
 While we want to maximize the time the pore remains unclogged, we also do not want a large number of particles to pass through the filter completely, which would 
@@ -22,7 +22,7 @@ the pore is clogged and no new particles are generated. When analyzing the data,
 
 Possible Improvements & Future Developments:
   1. 3D version
-  2. random, independant particle generation (can have multiple or 0 moving particles at once)
+  2. random, independent particle generation (can have multiple or 0 moving particles at once)
   3. variable/realistic particle shape/size (not all particles are squares/cubes/1 unit, they can be circular/weirdly shaped)
   4. "stickiness" to determine whether a particle gets stuck, or a stuck particles becomes free again. 
 
