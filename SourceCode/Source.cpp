@@ -63,7 +63,24 @@ int main() {
 		}
 	}
 	vector<int> porecheck(200,1);
-	/*
-
-	
+	// Sim start
+	// Generate particle
+	// Keep moving particle until it gets stuck or leaves pore
+	// If stuck, update lattice with new stuck position (B++, A++) and (1) check for closure
+	// If it leaves (2), leave lattice alone, (B++)
+	// If (1) or (2), repeat
+	// If (1*), exit and write lattice, B, and A to txt file
+	bool Sim = true;
+	srand(time(NULL));
+	while (Sim) {
+		// generate random starting x position [0 - 99], y position will be fixed at 199 initially
+		int xpos = rand() % 100;
+		int ypos = 199;
+		Particle poo(xpos, ypos);
+		Particle poo2 = poo;
+		poo.moveParticle();
+		cout << "poo2(" << poo2.getWidth() << ", " << poo2.getHeight() << ")\npoo(" << poo.getWidth() << ", " << poo.getHeight() << ")\n";
+		system("pause");
+	}
+	system("pause");
 }
