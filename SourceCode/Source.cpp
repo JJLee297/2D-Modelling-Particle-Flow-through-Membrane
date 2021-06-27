@@ -27,9 +27,11 @@ bool checkForClosure (int arra){
 				vector.pushback(porecheck.at(y)-1);
 			}
 			int length = porecheck.size()
+			if(length == 0){
+				return false;
+			}
 		}
 	}
-	check = porecheck.empty();
 }
 
 void write(int arr[100][200], int A, int B) {
