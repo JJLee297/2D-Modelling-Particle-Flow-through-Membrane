@@ -1,95 +1,85 @@
 #include <cstdlib>
 #include <iostream>
+#include <stdlib.h>  
+#include <time.h>
+
 using namespace std;
 
 class Particle {
-  public:
-    Particle(int xpos, int ypos);
-    void getDirection();
-    void moveDirection(int x, int y);
-  
-  private:
-    int x;
-    int y;
-    int dir;
-    bool stuck;
-}
+public:
+	Particle(int xpos, int ypos) {
+		x = xpos;
+		y = ypos;
+		stuck = false;
+	}
 
-struct Point{
-  int xposition = x;
-  int yposition = y;
-}
+	void moveParticleXY(int xpos, int ypos) {
+		x = xpos;
+		y = ypos;
+	}
 
-void getDirection(){
-  int dir = 0;
-  float rand = (rand()%101)/100;
-  if (rand<=.2){
-    dir = 0;
-  }
-  if (rand<=.4){
-    dir = 1;
-  }
-  if (rand<=.6){
-    dir = 2;
-  }
-  if (rand<=.8){
-    dir = 3;
-  }
-  if (rand<=1){
-    dir = 4;
-  }
-}
+	bool getState() {
+		return stuck;
+	}
 
-point moveDirection(){
-  x = Particle.xpos;
-  y = Particle.ypos;
-  switch (dir)
-  {
-      case 0;
-  }
-  if (dir == 0){
-    if(x == 0){
-       x = 99;
-    }
-    else(){
-      x-=1;
-    }
-  }
-  if (dir == 1){
-    x-=1;
-    y+=1;
-    if (x == -1){
-      x = 99;
-    }
-  }
-  if (dir == 2){
-    y+=1;
-  }
-  if (dir == 3){
-    x+=1;
-    y+=1;
-    if(x == 100){
-      x = 0;
-    }
-  }
-  if (dir == 4){
-    if(x==99){
-      x = 0;
-    }
-    else{
-      x+=1;
-    }
-  }
-}
+	int getHeight() {
+		return y;
+	}
 
+	int getWidth() {
+		return x;
+	}
 
+	Particle moveParticle() {
+		srand(time(NULL));
+		int dir = rand() % 5 + 1;
+		Particle newPart(x, y);
+		// 1 is left, 2 is down-left, 3 is down, 4 is down-right, 5 is right
+		switch (dir) {
+		case 1:
+			if (newPart.getWidth() > 0)
+				newPart.moveParticleXY(x - 1, y);
+			else
+				newPart.moveParticleXY(99, y);
+			break;
+		
+		case 2:
+			if (newPart.getWidth() > 0)
+				newPart.moveParticleXY(x - 1, y);
+			else
+				newPart.moveParticleXY(99, y);
+			if (newPart.getHeight() > 0)
+				newPart.moveParticleXY(x, y - 1);
+			break;
+		
+		case 3:
+			if (newPart.getHeight() > 0)
+				newPart.moveParticleXY(x, y - 1);
+			break;
+		
+		case 4:
+			if (newPart.getWidth() < 99)
+				newPart.moveParticleXY(x + 1, y);
+			else
+				newPart.moveParticleXY(0, y);
+			if (newPart.getHeight() > 0)
+				newPart.moveParticleXY(x, y - 1);
+			break;
+		
+		case 5:
+			if (newPart.getWidth() < 99)
+				newPart.moveParticleXY(x + 1, y);
+			else
+				newPart.moveParticleXY(0, y);
+			break;
+		}
 
+		return newPart;
+	}
 
-
-
-
-
-
-
-
-
+private:
+	int x;
+	int y;
+	int dir;
+	bool stuck;
+};
