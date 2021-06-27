@@ -29,52 +29,48 @@ public:
 	int getWidth() {
 		return x;
 	}
-
-	Particle moveParticle() {
+	void moveParticle() {
 		srand(time(NULL));
 		int dir = rand() % 5 + 1;
-		Particle newPart(x, y);
 		// 1 is left, 2 is down-left, 3 is down, 4 is down-right, 5 is right
 		switch (dir) {
 		case 1:
-			if (newPart.getWidth() > 0)
-				newPart.moveParticleXY(x - 1, y);
+			if (x > 0)
+				x--;
 			else
-				newPart.moveParticleXY(99, y);
+				x = 99;
 			break;
 		
 		case 2:
-			if (newPart.getWidth() > 0)
-				newPart.moveParticleXY(x - 1, y);
+			if (x > 0)
+				x--;
 			else
-				newPart.moveParticleXY(99, y);
-			if (newPart.getHeight() > 0)
-				newPart.moveParticleXY(x, y - 1);
+				x = 99;
+			if (y > 0)
+				y--;
 			break;
 		
 		case 3:
-			if (newPart.getHeight() > 0)
-				newPart.moveParticleXY(x, y - 1);
+			if (y > 0)
+				y--;
 			break;
 		
 		case 4:
-			if (newPart.getWidth() < 99)
-				newPart.moveParticleXY(x + 1, y);
+			if (x < 99)
+				x++;
 			else
-				newPart.moveParticleXY(0, y);
-			if (newPart.getHeight() > 0)
-				newPart.moveParticleXY(x, y - 1);
+				x = 0;
+			if (y > 0)
+				y--;
 			break;
 		
 		case 5:
-			if (newPart.getWidth() < 99)
-				newPart.moveParticleXY(x + 1, y);
+			if (x < 99)
+				x++;
 			else
-				newPart.moveParticleXY(0, y);
+				x = 0;
 			break;
 		}
-
-		return newPart;
 	}
 
 private:
