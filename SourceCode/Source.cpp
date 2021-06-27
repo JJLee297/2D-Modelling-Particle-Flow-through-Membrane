@@ -6,6 +6,33 @@
 using namespace std;
 using ll = long long;
 
+bool checkForClosure (int arra){
+	for(int y = 0;y<200;y++){
+		if(arra[29][y] == 0){
+			porecheck.pushback(y); //record all of the heights of the stuck particles
+		}
+	}
+	int length = porecheck.size()
+	for(int x = 29; x<71;x++){
+		for(int y = 0;y<length;y++){
+			if(arra[(x+1][porecheck.at(y)] == 0 || arra[x+1][porecheck.at(y)+1] == 0 || arra[x+1][porecheck.at(y)-1]){
+				porecheck.replace = 0; // 0 means that the 'line' in that y index is preserved
+			}
+			else{
+				porecheck.y = 1; // 1 means that the 'line' in the y index has not been preserved
+			}
+			int length = porecheck.size()
+		}
+	}
+	for(int x = 0; x<100; x++){
+		bool check = false;
+		if (porecheck.x == 0){
+			check = true; // check refers to pore being open or closed
+		}
+	}
+	*/
+}
+
 void write(int arr[100][200], int A, int B) {
 	ofstream textfile;
 	textfile.open("LatticeData.txt", ofstream::out | ofstream::trunc);
@@ -37,30 +64,6 @@ int main() {
 	}
 	vector<int> porecheck(200,1);
 	/*
-	for(int y = 0;y<200;y++){
-		if(arr[29][y] == 0){
-			porecheck.y = 0; //initialize all of the stuck particles on the leftmost side of the membrane
-		}
-		else{
-			porecheck.y = 1;
-		}
-	}
-	for(int x = 29; x<71;x++){
-		for(int y = 0;y<199;y++){
-			if(arr[x+1][y] == 0 || arr[x+1][y+1] == 0 || arr[x+1][y-1]){
-				porecheck.y = 0; // 0 means that the 'line' in that y index is preserved
-			}
-			else{
-				porecheck.y = 1; // 1 means that the 'line' in the y index has not been preserved
-			}
-		}
-	}
-	for(int x = 0; x<100; x++){
-		bool check = false;
-		if (porecheck.x == 0){
-			check = true; // check refers to pore being open or closed
-		}
-	}
-	*/
+
 	
 }
