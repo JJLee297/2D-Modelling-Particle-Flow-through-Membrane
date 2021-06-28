@@ -1,5 +1,5 @@
-#include <iostream>
 #include "RandomWalk.h"
+#include <iostream>
 #include <fstream>
 #include <stdlib.h>  
 #include <time.h>
