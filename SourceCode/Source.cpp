@@ -4,40 +4,72 @@
 #include <stdlib.h>  
 #include <time.h>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
-using ll = long long;
 
-bool checkForClosure(int arra[100][200]) {
-	vector<int> porecheck;
-	for (int y = 0; y < 200; y++) {
-		if (arra[29][y] == 0) {
-			porecheck.push_back(y); //record all of the heights of the stuck particles
+/*
+closureTest() - given an initial point, closureTest traces all possible 'bridges' over the pore openning. 
+If a fully connected bridge exists, closureTest() returns true. Else, it returns false.
+Fully connected bridge: A bridge is considered fully connected if it completely (without any gaps) connects both sides 
+of the membrane surface. Diagonal connections are allowed. 
+*/
+
+bool closureTest(int arr[100][200], int x, int y) {
+	vector<int> check;
+	vector<int> check2;
+	check.push_back(y);
+	for (int i = x + 1; i < 100; ++i) {
+		for (int k = 0; k < check.size(); ++k) {
+			if (arr[i][check[k] - 1] == 0)
+				if (find(check2.begin(), check2.end(), check[k] - 1) == check2.end())
+					check2.push_back(check[k] - 1);
+			if (arr[i][check[k]] == 0)
+				if (find(check2.begin(), check2.end(), check[k]) == check2.end())
+					check2.push_back(check[k]);
+			if (arr[i][check[k] + 1] == 0)
+				if (find(check2.begin(), check2.end(), check[k] + 1) == check2.end())
+					check2.push_back(check[k] + 1);
+		}
+		if (check2.size() != 0) {
+			check = check2;
+			check2.clear();
+		}
+		else {
+			return false; 
+		}
+		if (i > 70 && arr[i][check[0] - 1] == 2) {
+			return true;
 		}
 	}
-	int length = porecheck.size();
-	for (int x = 29; x < 71; x++) {
-		for (int y = 0; y < length; y++) {
-			if (arra[(x + 1)][porecheck.at(y)] == 0) {
-				continue;
-			}
-			if (arra[x + 1][porecheck.at(y) + 1] == 0) {
-				porecheck.erase(porecheck.begin() + y);
-				porecheck.push_back(porecheck.at(y) + 1);
-			}
-			if (arra[x + 1][porecheck.at(y) - 1] == 0) {
-				porecheck.erase(porecheck.begin() + y);
-				porecheck.push_back(porecheck.at(y) - 1);
-			}
-			int length = porecheck.size();
-			if (length == 0) {
-				return false;
-			}
-		}
-	}
-	return true;
+	return false;
 }
 
+/*  There can be multiple definitions of clogged. We will only consider a pore 'clogged' if there exists a connected
+	path from one side of the membrane over the pore to the other side of the membrane.
+	Closure Check Algorithm:
+		1. Mark each particle that is stuck directly on top of the membrane on the left side (y = 50, x < 29)
+		2. For each of those particles, run closureTest()
+		3. If any closureTest() runs return true, then return true
+		4. else, return false
+*/
+bool checkForClosure(int arr[100][200]) {
+	vector<int> init;
+	for (int x = 0; x < 29; ++x) {
+		if (arr[x][50] == 0) {
+			init.push_back(x);
+		}
+	}
+	for (int i = 0; i < init.size(); ++i) {
+		if (closureTest(arr, init[i], 50)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+
+// accesses txt file and records final array data, with A and B
 void write(int arr[100][200], int A, int B) {
 	ofstream textfile;
 	textfile.open("LatticeData.txt", ofstream::out | ofstream::trunc);
@@ -53,12 +85,11 @@ void write(int arr[100][200], int A, int B) {
 	textfile.close();
 }
 
-bool checkForClosure(int arr[100][200]) {
-	return true;
-}
 
+// checks if a particles new position coincides with another stuck particle or membrane wall
 bool checkIfStuck(int arr[100][200], Particle poo) {
-	if (arr[poo.getWidth()][poo.getHeight()] == 0) {
+	int x = arr[poo.getWidth()][poo.getHeight()];
+	if (x == 2 || x == 0) {
 		return true;
 	}
 	return false;
@@ -66,55 +97,58 @@ bool checkIfStuck(int arr[100][200], Particle poo) {
 
 int main() {
 	// initialize 2D lattice
-	// 0 symbolizes stuck particle, 1 symbolizes free space
+	// 0 symbolizes stuck particle, 1 symbolizes free space, 2 symbolizes membrane layer
 	int arr[100][200];
 	for (int x = 0; x < 100; ++x) {
 		for (int y = 0; y < 200; ++y) {
 			if ((x < 29 || x > 70) && y < 50) {
-				arr[x][y] = 0;
+				arr[x][y] = 2;
 			}
 			else {
 				arr[x][y] = 1;
 			}
 		}
 	}
-	// Sim start
-	// Generate particle
-	// Keep moving particle until it gets stuck or leaves pore
-	// If stuck, update lattice with new stuck position (B++, A++) and (1) check for closure
-	// If it leaves (2), leave lattice alone, (B++)
-	// If (1) or (2), repeat
-	// If (1*), exit and write lattice, B, and A to txt file
-	bool Sim = true;
+
 	int A = 0;
 	int B = 0;
 	srand(time(NULL));
-	while (Sim) {
-		// generate random starting x position [0 - 99], y position will be fixed at 199 initially
+
+	// Sim loop
+	while (1) {
 		int xpos = rand() % 100;
 		int ypos = 199;
+		bool tester = false;
 		Particle poo(xpos, ypos);
 		Particle poo2 = poo;
+
+		// Particle movement loop
+		// breaks when particle leaves or gets stuck, poo2 updates if neither
 		while (1) {
 			poo.moveParticle();
-			if (checkIfStuck(arr, poo) == false) {
-				poo2 = poo;
-				continue;
-			}
-			else if (poo.getHeight() == 0) {
+			if (poo.getHeight() == 0) {
 				B++;
 				break;
 			}
-			else {
+			else if (checkIfStuck(arr, poo) == true) {
 				arr[poo2.getWidth()][poo2.getHeight()] == 0;
 				A++;
 				B++;
+				tester = true;
 				break;
 			}
+			else {
+				poo2 = poo;
+			}
 		}
-		if (checkForClosure(arr) == true) {
-			write(arr, A, B);
-			break;
+		// only checks for closure if a new particle is stuck
+		// if closed, final particle structure is recorded into txt file
+		if (tester == true) {
+			if (checkForClosure(arr) == true) {
+				write(arr, A, B);
+				break;
+			}
+			tester = false;
 		}
 	}
 }
