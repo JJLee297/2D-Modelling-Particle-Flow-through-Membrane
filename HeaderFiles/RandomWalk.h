@@ -71,6 +71,5 @@ public:
 private:
 	int x;
 	int y;
-	int dir;
 	bool stuck;
 };
