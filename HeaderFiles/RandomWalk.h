@@ -25,7 +25,6 @@ public:
 		return x;
 	}
 	void moveParticle() {
-		srand(time(NULL));
 		int dir = rand() % 5 + 1;
 		// 1 is left, 2 is down-left, 3 is down, 4 is down-right, 5 is right
 		switch (dir) {
