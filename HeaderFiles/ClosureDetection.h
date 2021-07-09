@@ -1,4 +1,6 @@
 // move closure algo here
+// ALGO DOES NOT WORK !!!
+// DO NOT USE !!
 #pragma once
 #include <iostream>
 #include <vector>
