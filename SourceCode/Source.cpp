@@ -26,17 +26,15 @@ void write(int A, int B, string name) {
 			for (int x = 0; x < 100; ++x) {
 				textfile << agg[x][y] << " ";
 			}
-			textfile << endl;
 		}
-		textfile << endl;
 		textfile << "\n\nTotal Stuck Particles: " << A << "\nTotal Tested Particles: " << B << endl;
 	}
 	textfile.close();
 }
 
 bool checkIfStuck(Particle part) {
-	int x = arr[part.getWidth()][part.getHeight()];
-	if (x == '*' || x == 'M') {
+	char x = arr[part.getWidth()][part.getHeight()];
+	if (x == '*' || x == 'M' && part.getHeight() <= 185) {
 		return true;
 	}
 	return false;
@@ -87,15 +85,12 @@ void createMembrane(int xx, int yy) {
 		for (int y = 0; y < 200; ++y) {
 			if (y < (slope * x + yint)) {
 				arr[x][y] = 'M';
-				//arr2[x][y] = 1;
 			}
 			else if (y < -slope * (x - (99 - xint))) {
 				arr[x][y] = 'M';
-				//arr2[x][y] = 2; 
 			}
 			else {
 				arr[x][y] = ' ';
-				//arr2[x][y] = 0;
 			}
 		}
 	}
@@ -108,8 +103,10 @@ void sim(int xinter, int yinter) {
 	bool breakcounter = false;
 	while (1) {
 		int xpos = rand() % 100;
-		int ypos = rand() % 50 + 150;
+		int ypos = rand() % 15 + 185;
 		Particle part(xpos, ypos);
+		if (checkIfStuck(part))
+			continue;
 		Particle part2 = part;
 		while (1) {
 			part.moveParticle();
@@ -117,10 +114,8 @@ void sim(int xinter, int yinter) {
 				B++;
 				break;
 			}
-			else if (checkIfStuck(part) == true) {
-				int x = part2.getWidth();
-				int y = part2.getHeight();
-				arr[x][y] = '*';
+			else if (checkIfStuck(part)) {
+				arr[part2.getWidth()][part2.getHeight()] = '*';
 				A++;
 				B++;
 				break;
@@ -137,16 +132,17 @@ void sim(int xinter, int yinter) {
 	}
 }
 
-int main() {
+int main() { 
 	srand(time(NULL));
 	double porosity = 2100;
 	for (double x = 1; x < 50; ++x) {
 		double y = (porosity / (100 - x));
 		if (y == (int)y) {
+			cout << "point: (" << x << ", " << y << ")\n";
 			setAgg();
 			totalA = 0;
 			totalB = 0;
-			for (int i = 0; i < 3; ++i) {
+			for (int i = 0; i < 25; ++i) {
 				sim(x, y);
 				aggregate();
 				cout << " " << i;
