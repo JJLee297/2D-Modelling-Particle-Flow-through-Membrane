@@ -6,7 +6,7 @@ runs = 25
 xinter = 30
 yinter = 30
   
-  
+# copy and paste the array output from the write() function in the cpp source
 print("Enter the entries in a single line (separated by space): ")
   
 entries = list(map(int, input().split()))
