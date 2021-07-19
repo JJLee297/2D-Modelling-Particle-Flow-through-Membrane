@@ -1,6 +1,6 @@
 Project Outline
 
-Basic Prodedure:
+Basic Simulation Prodedure:
   0. Build pore geometry and determine flow direction (particle movement probabilities) 
   1. Spawn particle at random x location at top of lattice
   2. Random walk particle until it either 
