@@ -13,7 +13,7 @@ Basic Simulation Prodedure (contained in sim(x, y)):
   5. Import data into Excel and graph
   
   
-Basic Data Collection Procedure:
+Basic Data Collection Procedure (contained in main()):
   1. Input specific porosity
   2. Determine the integer pore geometries that match given porosity (given variable rounding)
   3. For each pore geometry, run sim(x, y) 50 times 
