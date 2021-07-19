@@ -1,8 +1,8 @@
 Project Outline
 
-Basic Simulation Prodedure:
-  0. Build pore geometry and determine flow direction (particle movement probabilities) 
-  1. Spawn particle at random x location at top of lattice
+Basic Simulation Prodedure (contained in sim(x, y)):
+  0. Build pore geometry from x and y intercepts 
+  1. Spawn particle at random x location at top of lattice (top 15 units)
   2. Random walk particle until it either 
     1) sticks to surface or another particle
     2) exits the membrane through the pore
@@ -12,6 +12,14 @@ Basic Simulation Prodedure:
   4. If the pore is not closed, repeat from step 1
   5. Import data into Excel and graph
   
+  
+Basic Data Collection Procedure:
+  1. Input specific porosity
+  2. Determine the integer pore geometries that match given porosity (given variable rounding)
+  3. For each pore geometry, run sim(x, y) 50 times 
+  4. Aggregate the resulting particle configurations and record total particle stuck / tested
+
+
 Data Collection & Interpretation:
 While we want to maximize the time the pore remains unclogged, we also do not want a large number of particles to pass through the filter completely, which would 
 defeat the purpose of a filter. Let us define two variables, A and B. Let A be the total number of stuck particles at the end of the simulation, and let B be the 
