@@ -149,7 +149,7 @@ bool move(char arr[100][200]) {
 }
 
 bool contourOutline(char arr[100][200], int rightM) {
-	for (int y = 199; y >= 25; y--) {
+	for (int y = 199; y >= 0; y--) {
 		if (arr[0][y] == '*') {
 			OutlineSquare.setX(0);
 			ASP.setX(0);
