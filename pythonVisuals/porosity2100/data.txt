@@ -1,20 +1,23 @@
 porosity 2100
 
-16, 25
-Total Particles Tested (sim time): 306431
-Total Particles Stuck: 230904
+50 runs
+{
+    16, 25
+    Total Particles Tested (sim time): 306431
+    Total Particles Stuck: 230904
 
 
-25, 28
-Total Particles Tested (sim time): 243568
-Total Particles Stuck: 204520
+    25, 28
+    Total Particles Tested (sim time): 243568
+    Total Particles Stuck: 204520
 
 
-30, 30
-Total Particles Tested (sim time): 215935
-Total Particles Stuck: 188053
+    30, 30
+    Total Particles Tested (sim time): 215935
+    Total Particles Stuck: 188053
 
 
-40, 35
-Total Particles Tested (sim time): 100136
-Total Particles Stuck: 93220
+    40, 35
+    Total Particles Tested (sim time): 100136
+    Total Particles Stuck: 93220
+}
