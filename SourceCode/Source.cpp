@@ -17,6 +17,11 @@ char arr[100][200];
 int agg[100][200];
 ll totalA;
 ll totalB;
+int maxA;
+int minA;
+int maxB;
+int minB;
+
 
 void write(int A, int B, string name) {
 	ofstream textfile;
@@ -100,7 +105,6 @@ void sim(int xinter, int yinter) {
 	createMembrane(xinter, yinter);
 	int A = 0;
 	int B = 0;
-	bool breakcounter = false;
 	while (1) {
 		int xpos = rand() % 100;
 		int ypos = rand() % 15 + 185;
@@ -132,7 +136,7 @@ void sim(int xinter, int yinter) {
 	}
 }
 
-int main() { 
+int main() {
 	srand(time(NULL));
 	double porosity = 2100;
 	for (double x = 1; x < 50; ++x) {
@@ -142,13 +146,13 @@ int main() {
 			setAgg();
 			totalA = 0;
 			totalB = 0;
-			for (int i = 0; i < 25; ++i) {
+			for (int i = 0; i < 50; ++i) {
 				sim(x, y);
 				aggregate();
 				cout << " " << i;
 			}
 			write(totalA, totalB, "X" + to_string((int)x) + "Y" + to_string((int)y) + ".txt");
-			cout << endl;
+			cout << "\nsim over, next sim start\n";
 		}
 	}
 	system("pause");
