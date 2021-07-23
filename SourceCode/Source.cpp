@@ -139,19 +139,24 @@ void sim(int xinter, int yinter) {
 int main() {
 	srand(time(NULL));
 	double porosity = 2100;
-	for (double x = 1; x < 50; ++x) {
-		double y = (porosity / (100 - x));
-		if (y == (int)y) {
+	for (int x = 1; x < 50; ++x) {
+		double y = (0.995 * porosity) / (100 - x);
+		if (y != (int)y)
+			y = (int)y + 1;
+		double lim = (1.005 * porosity) / (100 - x);
+		for (y; y < lim; ++y) {
 			cout << "point: (" << x << ", " << y << ")\n";
 			setAgg();
 			totalA = 0;
 			totalB = 0;
-			for (int i = 0; i < 50; ++i) {
+			for (int i = 0; i < 250; ++i) {
 				sim(x, y);
 				aggregate();
-				cout << " " << i;
+				if (i % 25 == 0) {
+					cout << i << " ";
+				}
 			}
-			write(totalA, totalB, "X" + to_string((int)x) + "Y" + to_string((int)y) + ".txt");
+			write(totalA, totalB, "X" + to_string(x) + "Y" + to_string(y) + ".txt");
 			cout << "\nsim over, next sim start\n";
 		}
 	}
