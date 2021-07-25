@@ -207,7 +207,7 @@ int main() {
 					cout << i << " ";
 				}
 			}
-			write(totalA, totalB, "X" + to_string(x) + "Y" + to_string(y) + ".txt");
+			write(totalA, totalB, "X" + to_string(x) + "Y" + to_string((int)y) + ".txt");
 			cout << "\nsim over, next sim start\n";
 		}
 	}
