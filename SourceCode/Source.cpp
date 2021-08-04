@@ -1,5 +1,6 @@
 #include <iostream>
 #include "RandomWalk.cpp"
+#include "contourOutline.cpp"
 #include <fstream>
 #include <stdlib.h>  
 #include <time.h>
@@ -58,7 +59,10 @@ void write(int A, int B, string name) {
 	if (textfile.is_open()) {
 		for (int y = 199; y >= 0; --y) {
 			for (int x = 0; x < 100; ++x) {
-				textfile << agg[x][y] << " ";
+				if (agg[x][y] != -1)
+					textfile << agg[x][y] << " ";
+				else
+					textfile << 0 << " ";
 			}
 		}
 		textfile << "\n\nTotal Stuck Particles: " << A << "\nTotal Tested Particles: " << B << endl;
@@ -119,7 +123,7 @@ void setAgg() {
 void aggregate() {
 	for (int x = 0; x < 100; ++x) {
 		for (int y = 0; y < 200; ++y) {
-			if (arr[x][y] == 1 || arr[x][y] == 2) {
+			if ((arr[x][y] == 1 || arr[x][y] == 2) && agg[x][y] != -1) {
 				agg[x][y]++;
 			}
 		}
@@ -135,9 +139,11 @@ void createMembrane(int xx, int yy) {
 		for (int y = 0; y < 200; ++y) {
 			if (y < (slope * x + yint)) {
 				arr[x][y] = 1;
+				agg[x][y] = -1;
 			}
 			else if (y < -slope * (x - (99 - xint))) {
 				arr[x][y] = 2;
+				agg[x][y] = -1;
 			}
 			else {
 				arr[x][y] = 0;
@@ -186,28 +192,28 @@ void sim(int xinter, int yinter) {
 	}
 }
 
-
 int main() {
+	//650: 6, 900: 8, 1175: 10, 1425: 13, 1800: 14
 	srand(time(NULL));
-	double porosity = 2100;
+	double porosity = 900;
 	for (int x = 1; x < 50; ++x) {
 		double y = (0.995 * porosity) / (100 - x);
 		if (y != (int)y)
 			y = (int)y + 1;
 		double lim = (1.005 * porosity) / (100 - x);
 		for (y; y < lim; ++y) {
-			cout << "point: (" << x << ", " << y << ")\n";
+			cout << "(" << x << ", " << y << ")\n";
 			setAgg();
 			totalA = 0;
 			totalB = 0;
 			for (int i = 0; i < 250; ++i) {
 				sim(x, y);
 				aggregate();
-				if (i % 25 == 0) {
+				if (i % 50 == 0) {
 					cout << i << " ";
 				}
 			}
-			write(totalA, totalB, "X" + to_string(x) + "Y" + to_string((int)y) + ".txt");
+			write(totalA, totalB, "X" + to_string(x) + "Y" + to_string((int)y) + "por" + to_string((int)porosity) + ".txt");
 			cout << "\nsim over, next sim start\n";
 		}
 	}
