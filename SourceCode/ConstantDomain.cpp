@@ -1,3 +1,9 @@
+/*
+Constant domain simulation, array size 100x200
+Simulation with dynamic y and x lengths, satisfying (constant(+=0.5%) = y(100-x))
+keep in mind the txt file naming procedure (can be modified), which does not account for different flow patterns.
+said flow patterns are implemented in RandomWalk.cpp and can be modified there; under moveParticle(). 
+*/
 #include <iostream>
 #include "RandomWalk.cpp"
 #include "contourOutline.cpp"
