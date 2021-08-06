@@ -1,3 +1,7 @@
+/*
+Use for constant domain
+flow pattern can be modified here
+*/
 #include <cstdlib>
 #include <iostream>
 #include <stdlib.h>  
