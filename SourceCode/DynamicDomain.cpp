@@ -1,3 +1,8 @@
+/*
+Dynamic Domain, satisfying (constant(+-0.5%) = (y_constant)(domain_length - x)) 
+Keep in mind txt file naming procedure, doesn't take into account the flow pattern (modifiable). 
+Other cpp files have been changed accordinly - take care to use the appropriate files for dynamicdomain vs constantdomain
+*/
 #include <iostream>
 #include "RandomWalk.cpp"
 #include "contourOutline.cpp"
