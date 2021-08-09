@@ -1,6 +1,10 @@
 /*
-Use for constant domain
+Use for constant domain + wrap-around effect
 flow pattern can be modified here
+for dynamicDomain, add int argument to moveParticle(): as follows
+	void moveParticle(int dom) {...}
+	replace all '99' with 'dom - 1'
+for no wrap-around effect (particle cannot teleport after reaching wall), remove all '=' operations in moveParticle
 */
 #include <cstdlib>
 #include <iostream>
