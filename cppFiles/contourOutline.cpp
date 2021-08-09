@@ -1,3 +1,14 @@
+/*
+works with two points, an anchor point and a tracing point. Anchor point will always be on a stuck particle/membrane point, 
+and tracing point will always be adjacent to the anchor point.
+Anchor point is initialized as first stuck particle/membrane point  on leftmost column, from the top. Tracing point is on top of anchor point. 
+Tracing point will swing clockwise around the anchor point until it either hits another stuck particle/membrane point, or hits the wall. 
+If it hits a wall, anchor point/tracing point is re-initialized under the first spot. If it hits another stuck particle/membrane point,
+that becomes the new anchor point, and the tracing point continues to swing clockwise. 
+If tracing point reaches bottom of pore, the pore is open. If tracing point reaches across pore to the other wall, the membrane is closed.
+runs pretty fast, but is not used in dynamicDomain.cpp or constantDomain.cpp. 
+*/
+
 #include <iostream>
 
 using namespace std;
