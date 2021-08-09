@@ -2,6 +2,8 @@
 #include <vector>
 #include <unordered_set>
 // BFS Search for Path in *'s
+// BFS is fine, but it is very inefficient for this project. Is not included in source code, but may be interesting to look at
+// for a different problem/scenario
 
 class ArElement {
 public:
