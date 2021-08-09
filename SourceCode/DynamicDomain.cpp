@@ -1,11 +1,10 @@
 /*
-Dynamic Domain, satisfying (constant(+-0.5%) = (y_constant)(domain_length - x)) 
+Dynamic Domain, satisfying (constant area = (y_constant)(domain_length - x)) 
 Keep in mind txt file naming procedure, doesn't take into account the flow pattern (modifiable). 
 Other cpp files have been changed accordinly - take care to use the appropriate files for dynamicdomain vs constantdomain
 */
 #include <iostream>
 #include "RandomWalk.cpp"
-#include "contourOutline.cpp"
 #include <fstream>
 #include <stdlib.h>  
 #include <time.h>
@@ -135,18 +134,18 @@ void aggregate() {
 	}
 }
 
-void createMembrane(int xx, int yy) {
+void createMembrane(int xx, int yy, int dom) {
 	float yint, xint;
 	xint = (float)xx;
 	yint = (float)yy;
 	float slope = -(yint / xint);
-	for (int x = 0; x < 100; x++) {
+	for (int x = 0; x < dom; x++) {
 		for (int y = 0; y < 200; ++y) {
 			if (y < (slope * x + yint)) {
 				arr[x][y] = 1;
 				agg[x][y] = -1;
 			}
-			else if (y < -slope * (x - (99 - xint))) {
+			else if (y < -slope * (x - (dom - 1 - xint))) {
 				arr[x][y] = 2;
 				agg[x][y] = -1;
 			}
@@ -157,27 +156,27 @@ void createMembrane(int xx, int yy) {
 	}
 }
 
-void sim(int xinter, int yinter) {
-	createMembrane(xinter, yinter);
+void sim(int xinter, int yinter, int dom) {
+	createMembrane(xinter, yinter, dom);
 	int A = 0;
 	int B = 0;
 	while (1) {
-		int xpos = rand() % 100;
+		int xpos = rand() % dom;
 		int ypos = rand() % 15 + 185;
 		Particle part(xpos, ypos);
 		if (checkIfStuck(part))
 			continue;
 		Particle part2 = part;
 		while (1) {
-			part.moveParticle();
+			part.moveParticle(dom);
 			if (part.getHeight() == 0) {
 				B++;
 				break;
 			}
 			else if (checkIfStuck(part)) {
-				if (part2.getWidth() != 0 && part2.getWidth() != 99)
+				if (part2.getWidth() != 0 && part2.getWidth() != dom - 1)
 					arr[part2.getWidth()][part2.getHeight()] = arr[part.getWidth()][part.getHeight()];
-				else if (part2.getWidth() == 99)
+				else if (part2.getWidth() == dom - 1)
 					arr[part2.getWidth()][part2.getHeight()] = 2;
 				else 
 					arr[part2.getWidth()][part2.getHeight()] = 1;
@@ -197,47 +196,46 @@ void sim(int xinter, int yinter) {
 	}
 }
 
-void test() {
-	for (double porosity = 1200; porosity < 2000; porosity+=25) {
-		int maxC = 0;
-		for (int x = 1; x < 50; ++x) {
-			double y = (0.995 * porosity) / (100 - x);
-			if (y != (int)y)
-				y = (int)y + 1;
-			double lim = (1.005 * porosity) / (100 - x);
-			for (y; y < lim; ++y) {
-				maxC++;
-			}
+/*
+dynamic domain, (area(+-0.5%) = (y_constant)(dom_length - x))
+area = y_constant(100-x_i)
+y_constant(100-x_i)(+-0.5%) = (y_constant)(dom_length - x))
+(100-x_i)(+-0.5%) = (dom_length - x)
+x = dom_length - (100 - x_i) = dom_length + x_i - 100
+
+things that need to be changed:
+	DynamicDomain.cpp
+		-Domain is fixed to the left side, 0. This removes the symmetry gimmick (cannot center align odd-length domain in 100 units)
+		-Membrane creation and sim - defined by domain length + x length + constant y length
+			-(x, y, d) - x intercept, y intercept, domain length
+			-(x_0, y_constant, 100)
+			-(x_0 - 1, y_constant, 99)
+			-...
+			-(1, y_constant, 100 - x_0 + 1) 
+			-moveparticle takes domain length as 99 replacement
+		-aggregate should work fine
+		-closure check should work fine
+*/
+
+
+int main() {
+	srand(time(NULL));
+	int y = 50; 
+	int x_init = 30;
+	int area = y * (100 - x_init);
+	cout << "Area: " << area << endl;
+	for (int i = 0; i < x_init; ++i) {
+		cout << x_init - i << endl;
+		setAgg();
+		totalA = 0;
+		totalB = 0;
+		for (int k = 0; k < 25; ++k) {
+			sim(x_init - i, y, 100 - i);
+			aggregate();
 		}
-		cout << porosity << " " << maxC << endl;
+		write(totalA, totalB, "X" + to_string(x_init - i) + "Y" + to_string(y) + "por" + to_string(area) + ".txt");
+		cout << "\nsim over, next sim start\n";
 	}
 	system("pause");
 }
 
-int main() {
-	//650: 6, 900: 8, 1175: 10, 1425: 13, 1800: 14
-	srand(time(NULL));
-	double porosity = 900;
-	for (int x = 1; x < 50; ++x) {
-		double y = (0.995 * porosity) / (100 - x);
-		if (y != (int)y)
-			y = (int)y + 1;
-		double lim = (1.005 * porosity) / (100 - x);
-		for (y; y < lim; ++y) {
-			cout << "(" << x << ", " << y << ")\n";
-			setAgg();
-			totalA = 0;
-			totalB = 0;
-			for (int i = 0; i < 250; ++i) {
-				sim(x, y);
-				aggregate();
-				if (i % 50 == 0) {
-					cout << i << " ";
-				}
-			}
-			write(totalA, totalB, "X" + to_string(x) + "Y" + to_string((int)y) + "por" + to_string((int)porosity) + ".txt");
-			cout << "\nsim over, next sim start\n";
-		}
-	}
-	system("pause");
-}
