@@ -124,8 +124,8 @@ void setAgg() {
 	}
 }
 
-void aggregate() {
-	for (int x = 0; x < 100; ++x) {
+void aggregate(int dom) {
+	for (int x = 0; x < dom; ++x) {
 		for (int y = 0; y < 200; ++y) {
 			if ((arr[x][y] == 1 || arr[x][y] == 2) && agg[x][y] != -1) {
 				agg[x][y]++;
@@ -231,7 +231,7 @@ int main() {
 		totalB = 0;
 		for (int k = 0; k < 25; ++k) {
 			sim(x_init - i, y, 100 - i);
-			aggregate();
+			aggregate(100 - i);
 		}
 		write(totalA, totalB, "X" + to_string(x_init - i) + "Y" + to_string(y) + "por" + to_string(area) + ".txt");
 		cout << "\nsim over, next sim start\n";
