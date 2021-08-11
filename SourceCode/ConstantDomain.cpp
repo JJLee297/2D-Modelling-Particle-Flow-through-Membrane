@@ -24,7 +24,8 @@ int arr[100][200];
 int agg[100][200];
 ll totalA;
 ll totalB;
-
+vector<ll> totalAs;
+vector<ll> totalBs;
 
 bool closureCheck(int x, int y) {
 	int state;
@@ -72,6 +73,17 @@ void write(int A, int B, string name) {
 			}
 		}
 		textfile << "\n\nTotal Stuck Particles: " << A << "\nTotal Tested Particles: " << B << endl;
+	}
+	textfile.close();
+}
+
+void writeTots() {
+	ofstream textfile;
+	textfile.open("TotCounts.txt", ofstream::out | ofstream::trunc);
+	if (textfile.is_open()) {
+		for (int i = 0; i < totalAs.size(); ++i) {
+			textfile << totalAs[i] << " " << totalBs[i] << endl;
+		}
 	}
 	textfile.close();
 }
@@ -223,5 +235,6 @@ int main() {
 			cout << "\nsim over, next sim start\n";
 		}
 	}
+	writeTots();
 	system("pause");
 }
