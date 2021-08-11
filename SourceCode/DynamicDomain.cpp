@@ -22,7 +22,8 @@ int arr[100][200];
 int agg[100][200];
 ll totalA;
 ll totalB;
-
+vector<ll> totalAs;
+vector<ll> totalBs;
 
 bool closureCheck(int x, int y) {
 	int state;
@@ -74,9 +75,20 @@ void write(int A, int B, string name) {
 	textfile.close();
 }
 
+void writeTots() {
+	ofstream textfile;
+	textfile.open("TotCounts.txt", ofstream::out | ofstream::trunc);
+	if (textfile.is_open()) {
+		for (int i = 0; i < totalAs.size(); ++i) {
+			textfile << totalAs[i] << " " << totalBs[i] << endl;
+		}
+	}
+	textfile.close();
+}
+
 bool checkIfStuck(Particle part) {
 	int x = arr[part.getWidth()][part.getHeight()];
-	if ((x == 1 || x == 2) && part.getHeight() <= 185) {
+	if ((x == 1 || x == 2) && part.getHeight() < 185) {
 		return true;
 	}
 	return false;
@@ -110,7 +122,10 @@ void showfull() {
 void showAgg() {
 	for (int y = 199; y >= 0; --y) {
 		for (int x = 0; x < 100; ++x) {
-			cout << agg[x][y];
+			if (agg[x][y] != -1)
+				cout << agg[x][y];
+			else
+				cout << 0;
 		}
 		cout << endl;
 	}
@@ -164,8 +179,6 @@ void sim(int xinter, int yinter, int dom) {
 		int xpos = rand() % dom;
 		int ypos = rand() % 15 + 185;
 		Particle part(xpos, ypos);
-		if (checkIfStuck(part))
-			continue;
 		Particle part2 = part;
 		while (1) {
 			part.moveParticle(dom);
@@ -176,7 +189,7 @@ void sim(int xinter, int yinter, int dom) {
 			else if (checkIfStuck(part)) {
 				if (part2.getWidth() != 0 && part2.getWidth() != dom - 1)
 					arr[part2.getWidth()][part2.getHeight()] = arr[part.getWidth()][part.getHeight()];
-				else if (part2.getWidth() == dom - 1)
+				else if (part2.getWidth() == dom - 1) 
 					arr[part2.getWidth()][part2.getHeight()] = 2;
 				else 
 					arr[part2.getWidth()][part2.getHeight()] = 1;
@@ -196,28 +209,6 @@ void sim(int xinter, int yinter, int dom) {
 	}
 }
 
-/*
-dynamic domain, (area(+-0.5%) = (y_constant)(dom_length - x))
-area = y_constant(100-x_i)
-y_constant(100-x_i)(+-0.5%) = (y_constant)(dom_length - x))
-(100-x_i)(+-0.5%) = (dom_length - x)
-x = dom_length - (100 - x_i) = dom_length + x_i - 100
-
-things that need to be changed:
-	DynamicDomain.cpp
-		-Domain is fixed to the left side, 0. This removes the symmetry gimmick (cannot center align odd-length domain in 100 units)
-		-Membrane creation and sim - defined by domain length + x length + constant y length
-			-(x, y, d) - x intercept, y intercept, domain length
-			-(x_0, y_constant, 100)
-			-(x_0 - 1, y_constant, 99)
-			-...
-			-(1, y_constant, 100 - x_0 + 1) 
-			-moveparticle takes domain length as 99 replacement
-		-aggregate should work fine
-		-closure check should work fine
-*/
-
-
 int main() {
 	srand(time(NULL));
 	int y = 50; 
@@ -229,13 +220,16 @@ int main() {
 		setAgg();
 		totalA = 0;
 		totalB = 0;
-		for (int k = 0; k < 25; ++k) {
+		for (int k = 0; k < 250; ++k) {
 			sim(x_init - i, y, 100 - i);
 			aggregate(100 - i);
 		}
+		totalAs.push_back(totalA);
+		totalBs.push_back(totalB);
 		write(totalA, totalB, "X" + to_string(x_init - i) + "Y" + to_string(y) + "por" + to_string(area) + ".txt");
 		cout << "\nsim over, next sim start\n";
 	}
+	writeTots();
 	system("pause");
 }
 
