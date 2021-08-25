@@ -18,11 +18,6 @@ public:
 	Particle(int xpos, int ypos) {
 		x = xpos;
 		y = ypos;
-		stuck = false;
-	}
-
-	bool getState() {
-		return stuck;
 	}
 
 	int getHeight() {
@@ -32,51 +27,79 @@ public:
 	int getWidth() {
 		return x;
 	}
-	void moveParticle() {
-		int dir = rand() % 5 + 1;
-		// 1 is left, 2 is down-left, 3 is down, 4 is down-right, 5 is right
-		switch (dir) {
-		case 1:
+
+	void moveParticle(int dom,  int dir) {
+		if (dir < 55) {
 			if (x > 0)
 				x--;
 			else
-				x = 99;
-			break;
-		
-		case 2:
+				x = dom - 1;
+		}
+		// left down
+		else if (dir < 2018) {
 			if (x > 0)
 				x--;
 			else
-				x = 99;
-			if (y > 0)
-				y--;
-			break;
-		
-		case 3:
-			if (y > 0)
-				y--;
-			break;
-		
-		case 4:
-			if (x < 99)
+				x = dom - 1;
+			y--;
+		}
+		// down
+		else if (dir < 7982) {
+			y--;
+		}
+		// right down
+		else if (dir < 9945) {
+			if (x < dom - 1)
 				x++;
 			else
 				x = 0;
-			if (y > 0)
-				y--;
-			break;
-		
-		case 5:
-			if (x < 99)
+			y--;
+		}
+		// right
+		else {
+			if (x < dom - 1)
 				x++;
 			else
 				x = 0;
-			break;
 		}
 	}
-
+	
+	void moveParticle2(int dom,  double dir) {
+		if (dir < -75) {
+			if (x > 0)
+				x--;
+			else
+				x = dom - 1;
+		}
+		// left down
+		else if (dir <= -25) {
+			if (x > 0)
+				x--;
+			else
+				x = dom - 1;
+			y--;
+		}
+		// down
+		else if (dir < 25) {
+			y--;
+		}
+		// right down
+		else if (dir <= 75) {
+			if (x < dom - 1)
+				x++;
+			else
+				x = 0;
+			y--;
+		}
+		// right
+		else {
+			if (x < dom - 1)
+				x++;
+			else
+				x = 0;
+		}
+	}
 private:
 	int x;
 	int y;
-	bool stuck;
 };
