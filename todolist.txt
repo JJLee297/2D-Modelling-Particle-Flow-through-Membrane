@@ -1,0 +1,14 @@
+
+Sid's Work
+
+1. change sticking probabilities 
+2. increase testing case #: 250 -> 500
+
+Justin's Work
+
+1. test small standard deviations and analyze results
+2. optimize code, time & space effeciency 
+
+General work
+
+1. write up final paper
